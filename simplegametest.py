@@ -1,8 +1,13 @@
-import sys, pygame, time, random
+import sys, pygame, time, random, os
 from constants import *
 from menu import *
 from game_objects import *
 from tools import *
+
+current_path = os.path.dirname(__file__) # Where your .py file is located
+image_path = os.path.join(current_path, 'images') 
+
+
 pygame.init()    # initialize all pygame modules
 
 
@@ -13,11 +18,11 @@ action_window = pygame.Surface(ACTION_SCREEN_SIZE)
 ## pygame.FULLSCREEN can add to set_mode
 (fire_start_pos, gold_start_pos) = set_random_coord()
 
-U_LOSE_pic = pygame.image.load('lose.png')
+U_LOSE_pic = pygame.image.load(os.path.join(image_path, 'lose.png'))
 U_LOSE_rect = U_LOSE_pic.get_rect()
-PAUSE_pic = pygame.image.load('pause.png')
+PAUSE_pic = pygame.image.load(os.path.join(image_path, 'pause.png'))
 PAUSE_rect = PAUSE_pic.get_rect()
-LIFE_pic = pygame.image.load('heart.png')
+LIFE_pic = pygame.image.load(os.path.join(image_path, 'heart.png'))
 LIFE_rect = LIFE_pic.get_rect()
 
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
@@ -123,34 +128,36 @@ while 1:
         elif collide[0] == Heart:
             LIFE_COUNTER = 3
                
-    if  Gold.is_killed() and Fire.is_killed() and gameplay == True and not PAUSE:       
+    if  Gold.is_killed() and Fire.is_killed() and gameplay == True and not PAUSE:
+        #everything after enemies free falling (without collide!)
         score = score_panel.value + 2
         score_panel.update(score)
         (fire_start_pos, gold_start_pos) = set_random_coord()
         Fire  = Flame("fire_50.png", fire_start_pos, Fire.speed)
         Gold  = Coin("coin.png", gold_start_pos, Gold.speed)
         Enemy.add(Fire, Gold)
+        #checking extra life heart condition: 
         if score >= random_heart_int and score % random_heart_int == 0:
             Heart = Enemies("red_heart.png", set_random_coord()[0], Gold.speed)
             Enemy.add(Heart)
-##            Heart.update()
-            print(f'{score} = HEART!')
+
             
-        
+    #DRAW everything we have:    
     
     action_window.fill(GRAY)
     Enemy.draw(action_window)
-    if LOSE == True:               #draws only if U lose
+    
+    if LOSE == True:                                #draws only if U lose
         action_window.blit(U_LOSE_pic, U_LOSE_rect)
         InfoPanel.draw(total_score, action_window,  True)
         rating_list.append(total_score.value)
         record.update(max(rating_list))
         InfoPanel.draw(record, action_window,  True)
         
-    if PAUSE == True:
+    if PAUSE == True:                               #draws only if game is on PAUSE
         action_window.blit(PAUSE_pic, (100, 180))
 
-    if LIFE_COUNTER == 3:
+    if LIFE_COUNTER == 3:                           #draws life hearts
         action_window.blit(LIFE_pic, (4,3))
         action_window.blit(LIFE_pic, (33,3))
         action_window.blit(LIFE_pic, (62,3))

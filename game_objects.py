@@ -1,11 +1,15 @@
 import pygame as pg
 import random
 from constants import *
+import os
+
+current_path = os.path.dirname(__file__) # Where your .py file is located
+image_path = os.path.join(current_path, 'images') # The image folder path
 
 class Eye(pg.sprite.Sprite):
     def __init__(self, filename, direction, location):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(filename)
+        self.image = pg.image.load(os.path.join(image_path, filename))
         self.rect = self.image.get_rect(topleft = location)
         self.direction = direction
 
@@ -27,7 +31,7 @@ class Eye(pg.sprite.Sprite):
 class Enemies(pg.sprite.Sprite):
     def __init__(self, filename, location, speed, alive = None):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(filename)
+        self.image = pg.image.load(os.path.join(image_path, filename))
         self.rect = self.image.get_rect(topleft = location)
         self.speed = speed
         self.alive = True
