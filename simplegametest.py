@@ -70,6 +70,7 @@ while 1:
         elif start_button.isPressed(pos): #press the button for start
             gameplay = True             #game process is started
             LOSE = False                #lose pic isnt drawn
+            PAUSE = False
             TIMER = pygame.time.get_ticks() #start a time counting
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             score_panel.value = 0
