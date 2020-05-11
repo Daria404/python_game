@@ -1,11 +1,8 @@
-import sys, pygame, time, random, os
+import sys, pygame, time, random, os,  pickle
 from constants import *
 from menu import *
 from game_objects import *
 from tools import *
-
-current_path = os.path.dirname(__file__) # Where your .py file is located
-image_path = os.path.join(current_path, 'images') 
 
 
 pygame.init()    # initialize all pygame modules
@@ -40,6 +37,7 @@ time_panel = InfoPanel('TIME', DARK_GREY,  100, 0, 150, 25, 0, 'TIME')
 score_panel = InfoPanel('SCORE', DARK_GREY,  250, 0, 150, 25, 0, 'SCORE')
 total_score = InfoPanel('TOTAL_SCORE', RED, 250, 75, 200, 50, 0, 'TOTAL SCORE')
 record = InfoPanel('RECORD_SCORE', RED, 250, 150, 200, 50, 0, 'RECORD')
+new_record = InfoPanel('RECORD_SCORE', RED, 250, 100, 200, 50, 0, 'NEW RECORD')
 level_info = InfoPanel('Level', RED,  200, 0, 100, 25, 0, 'LVL')
 coin_panel = InfoPanel('COIN_CHECKER', GRAY, 395, 0, 100, 25, 0, 'COINS')
                                    
@@ -51,7 +49,6 @@ collide = None
 GAME = True
 LOSE = False
 PAUSE = False
-rating_list = []
 level = 1
 LIFE_COUNTER = 3
 
@@ -80,8 +77,9 @@ while 1:
             level_info.value = 1
             coin_panel.value = 0
             LIFE_COUNTER = 3
+            NEW_RECORD = False
             random_heart_int = random.choice(range(10,30))
-            print(random_heart_int)
+
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -123,7 +121,14 @@ while 1:
                 TIMER = False
                 LOSE = True
                 gameplay = False
-                total_score.update(score_panel.value)
+                total_res = score_panel.value
+                prev_record = record_res()
+                scores = score_to_list(score_panel.value)
+                total_score.update(total_res)
+                
+                if total_res > prev_record:
+                    new_record_score = record_res()
+                    NEW_RECORD = True
                 
         elif collide[0] == Heart:
             LIFE_COUNTER = 3
@@ -140,7 +145,7 @@ while 1:
         if score >= random_heart_int and score % random_heart_int == 0:
             Heart = Enemies("red_heart.png", set_random_coord()[0], Gold.speed)
             Enemy.add(Heart)
-
+            
             
     #DRAW everything we have:    
     
@@ -149,11 +154,13 @@ while 1:
     
     if LOSE == True:                                #draws only if U lose
         action_window.blit(U_LOSE_pic, U_LOSE_rect)
-        InfoPanel.draw(total_score, action_window,  True)
-        rating_list.append(total_score.value)
-        record.update(max(rating_list))
-        InfoPanel.draw(record, action_window,  True)
-        
+        if NEW_RECORD:
+            new_record.update(new_record_score)
+            InfoPanel.draw(new_record, action_window,  True)
+        else:
+            InfoPanel.draw(total_score, action_window,  True)
+            record.update(prev_record)
+            InfoPanel.draw(record, action_window,  True)
     if PAUSE == True:                               #draws only if game is on PAUSE
         action_window.blit(PAUSE_pic, (100, 180))
 
