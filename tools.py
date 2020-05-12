@@ -1,5 +1,8 @@
 import random
 import pickle
+import pygame
+import os
+from constants import *
 
 def set_random_coord():
     flag = True 
@@ -45,5 +48,7 @@ def record_res():
     score_list = open_score_list()
     return max(score_list)
 
-
+def add_image(filename):
+    image = pygame.image.load(os.path.join(image_path, filename))
+    return image
 

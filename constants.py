@@ -1,3 +1,5 @@
+import os
+
 SCREEN_HEIGHT = 500
 SCREEN_WIDTH = 500
 
@@ -21,3 +23,6 @@ WHITE     = (255, 255, 255)
 GREEN     = (63,  122,  77)
 RED       = (178,  34,  34)
 DARK_GREY = (100, 100, 100)
+
+current_path = os.path.dirname(__file__) # Where your .py file is located
+image_path = os.path.join(current_path, 'images') # The image folder path

@@ -15,13 +15,15 @@ action_window = pygame.Surface(ACTION_SCREEN_SIZE)
 ## pygame.FULLSCREEN can add to set_mode
 (fire_start_pos, gold_start_pos) = set_random_coord()
 
-U_LOSE_pic = pygame.image.load(os.path.join(image_path, 'lose.png'))
-U_LOSE_rect = U_LOSE_pic.get_rect()
+##U_LOSE_pic = pygame.image.load(os.path.join(image_path, 'lose.png'))
+U_LOSE_pic = add_image('lose.png')
+
 PAUSE_pic = pygame.image.load(os.path.join(image_path, 'pause.png'))
-PAUSE_rect = PAUSE_pic.get_rect()
+
 LIFE_pic = pygame.image.load(os.path.join(image_path, 'heart.png'))
-LIFE_rect = LIFE_pic.get_rect()
+
 GROUND_pic = pygame.image.load(os.path.join(image_path, 'ground.png'))
+BORDERS = pygame.image.load(os.path.join(image_path, 'ground.png'))
 
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
 Right = Eye("right_eye.png", 'right', START_EYE_POS)
@@ -186,7 +188,7 @@ while 1:
             action_window.blit(LIFE_pic, (4,3))
             
     if LOSE == True:                                #draws only if U lose
-        action_window.blit(U_LOSE_pic, U_LOSE_rect)
+        action_window.blit(U_LOSE_pic, (0, 0))
         start_button.waiting_in_new_position(30, 260)
         exit_button.waiting_in_new_position(260, 260)
         Button.draw(start_button, action_window, True)
