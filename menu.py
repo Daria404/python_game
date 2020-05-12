@@ -35,6 +35,12 @@ class Button():
         else: flag = False
         if flag and pressed[0]: return True
 
+    def waiting_in_new_position(self, x, y):
+        self.x = x
+        self.y = y
+        
+        
+
 class InfoPanel():
     def __init__(self, name, color, x, y, width, height, value, text=''):
         self.name = name
