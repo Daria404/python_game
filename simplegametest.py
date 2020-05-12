@@ -21,6 +21,7 @@ PAUSE_pic = pygame.image.load(os.path.join(image_path, 'pause.png'))
 PAUSE_rect = PAUSE_pic.get_rect()
 LIFE_pic = pygame.image.load(os.path.join(image_path, 'heart.png'))
 LIFE_rect = LIFE_pic.get_rect()
+GROUND_pic = pygame.image.load(os.path.join(image_path, 'ground.png'))
 
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
 Right = Eye("right_eye.png", 'right', START_EYE_POS)
@@ -177,6 +178,7 @@ while 1:
         
     InfoPanel.draw(coin_panel, action_window,  False)
     InfoPanel.draw(level_info, action_window,  True)
+    action_window.blit(GROUND_pic, (0, 450))
     action_window.blit(current_sprite, sprite.locate())
     screen.blit(action_window, (0, 25))
     Button.draw(start_button, screen, True)
