@@ -53,7 +53,6 @@ class InfoPanel():
         self.value = value
         
     def draw(self,win,outline = None):
-        #Call this method to draw the button on the screen
         if outline:
             pg.draw.rect(win, outline,
                              (self.x-2,self.y-2,self.width+4,self.height+4),0)
@@ -61,13 +60,14 @@ class InfoPanel():
         pg.draw.rect(win, self.color,
                          (self.x,self.y,self.width,self.height),0)
         
-        if self.text != '':
-            font = pg.font.SysFont('comicsans', 30)
-            text = font.render(f'{self.text}:{str(self.value)}', 1, (0,0,0))
-            win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
+##        if self.text != '':
+        font = pg.font.SysFont('comicsans', 30)
+        text = font.render(f'{self.text}:{str(self.value)}', 1, (0,0,0))
+        win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
                             self.y + (self.height/2 - text.get_height()/2)))        
         
     def update(self,new_value):
         self.value = new_value
 
+    
         
