@@ -38,6 +38,23 @@ class Button():
     def waiting_in_new_position(self, x, y):
         self.x = x
         self.y = y
+
+class Pic_Button(Button):
+    def __init__(self, pic, location):
+        self.image = pic
+        self.location = location
+        self.rect = self.image.get_rect(topleft = location)
+
+    def draw_pic_button(self, win):
+        win.blit(self.image, self.location)
+
+    def pic_isPressed(self, event):
+         # change selected color if rectange clicked
+        if event.type == pg.MOUSEBUTTONDOWN: # is some button clicked
+            if event.button == 1: # is left button clicked
+                if self.rect.collidepoint(event.pos): # is mouse over button
+                    print('click!')
+                    return True
         
         
 

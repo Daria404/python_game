@@ -20,6 +20,8 @@ LIFE_pic = add_image('heart.png')
 GROUND_pic = add_image('ground.png')
 COIN_pic = add_image('coin_30.png')
 POTION_pic = add_image('water_potion.png')
+BOX_pic = add_image('box.png')
+INSIDEbox_pic = add_image('box_window.png')
 
 ##player's sprite initializing:
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
@@ -37,6 +39,7 @@ Enemy = pygame.sprite.Group(Fire, Gold)
 ##all buttons and info panels:
 start_button = Button(GREEN, 160, 100, 200, 50, 'START')
 exit_button  = Button(RED, 160, 180, 200, 50, 'EXIT')
+box_button = Pic_Button(BOX_pic, (240, 470))
 
 time_panel = InfoPanel('TIME', DARK_GREY,  390, 477, 100, 20, 0, 'TIME')
 score_panel = InfoPanel('SCORE', DARK_GREY,  10, 477, 110, 20, 0, 'SCORE')
@@ -54,6 +57,7 @@ collide = None
 WAITING = True
 LOSE = False
 PAUSE = False
+BOX = False
 
 #initial variables:
 level = 1
@@ -69,6 +73,7 @@ while 1:
         if event.type == pygame.QUIT or exit_button.isPressed(pos):
             pygame.quit()
             sys.exit()
+            
         elif event.type == pygame.KEYDOWN:
             
             if event.key == pygame.K_ESCAPE:    
@@ -87,12 +92,15 @@ while 1:
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             score_panel.value = 0
             coin_counter = 0
+            potion_counter = 0
             level_info.value = 1
             coin_panel.value = 0
             LIFE_COUNTER = 3
             NEW_RECORD = False
             random_heart_int = random.choice(range(10,30))
-
+        
+        if box_button.pic_isPressed(event):
+            BOX = True 
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -169,6 +177,7 @@ while 1:
     Enemy.draw(action_window)
     action_window.blit(current_sprite, sprite.locate())
     screen.blit(GROUND_pic, (0, 475))
+    Pic_Button.draw_pic_button(box_button, screen)
     
     if WAITING == True and LOSE == False:
         Button.draw(start_button, action_window, True)
@@ -183,8 +192,9 @@ while 1:
         InfoPanel.draw(time_panel, screen,  True)
         InfoPanel.draw(score_panel, screen,  True)
 
+
         #draw only if game is on PAUSE
-        if PAUSE == True:                               
+        if PAUSE == True:
             action_window.blit(PAUSE_pic, (100, 180))
             start_button.waiting_in_new_position(30, 260)
             exit_button.waiting_in_new_position(260, 260)
