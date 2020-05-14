@@ -53,7 +53,6 @@ class Pic_Button(Button):
         if event.type == pg.MOUSEBUTTONDOWN: # is some button clicked
             if event.button == 1: # is left button clicked
                 if self.rect.collidepoint(event.pos): # is mouse over button
-                    print('click!')
                     return True
         
         

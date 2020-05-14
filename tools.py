@@ -4,6 +4,8 @@ import pygame
 import os
 from constants import *
 
+pygame.init()
+
 def set_random_coord():
     flag = True 
     while flag == True:
@@ -52,3 +54,11 @@ def add_image(filename):
     image = pygame.image.load(os.path.join(image_path, filename))
     return image
 
+def create_text(surf, text, location):
+    myfont = pygame.font.SysFont('Comic Sans MS', 25)
+    textsurface = myfont.render(text, False, (0, 0, 0))
+    surf.blit(textsurface, location)
+
+def create_background(background, size):
+    background = pygame.Surface(size)
+    background.set_alpha(50)

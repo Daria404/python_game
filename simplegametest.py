@@ -9,6 +9,8 @@ pygame.init()    # initialize all pygame modules
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode(SCREEN_SIZE)  #create a new Surface object
 action_window = pygame.Surface(ACTION_SCREEN_SIZE)
+coin_menu = pygame.Surface((100, 30))
+potion_menu = pygame.Surface((100, 30))
 
 ## pygame.FULLSCREEN can add to set_mode
 (fire_start_pos, gold_start_pos) = set_random_coord()
@@ -19,9 +21,13 @@ PAUSE_pic = add_image('pause.png')
 LIFE_pic = add_image('heart.png')
 GROUND_pic = add_image('ground.png')
 COIN_pic = add_image('coin_30.png')
+BIG_COIN_pic = add_image('coin.png')
 POTION_pic = add_image('water_potion.png')
+BIG_POTION_pic = add_image('water_potion_55.png')
 BOX_pic = add_image('box.png')
 INSIDEbox_pic = add_image('box_window.png')
+BUY_pic = add_image('buy_menu.png')
+
 
 ##player's sprite initializing:
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
@@ -40,6 +46,7 @@ Enemy = pygame.sprite.Group(Fire, Gold)
 start_button = Button(GREEN, 160, 100, 200, 50, 'START')
 exit_button  = Button(RED, 160, 180, 200, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (240, 470))
+buy_button = Pic_Button(BUY_pic, (100, 180))
 
 time_panel = InfoPanel('TIME', DARK_GREY,  390, 477, 100, 20, 0, 'TIME')
 score_panel = InfoPanel('SCORE', DARK_GREY,  10, 477, 110, 20, 0, 'SCORE')
@@ -91,7 +98,7 @@ while 1:
             TIMER = pygame.time.get_ticks() #start a time counting
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             score_panel.value = 0
-            coin_counter = 0
+            coin_counter = 100
             potion_counter = 0
             level_info.value = 1
             coin_panel.value = 0
@@ -100,7 +107,16 @@ while 1:
             random_heart_int = random.choice(range(10,30))
         
         if box_button.pic_isPressed(event):
-            BOX = True 
+            BOX = not BOX
+        elif buy_button.pic_isPressed(event):
+            if coin_counter >= 50:
+                print('BUY!')
+                coin_counter -=50
+                potion_counter +=1
+                coin_panel.update(coin_counter)
+                potion_panel.update(potion_counter)
+            else:
+                print('Need more coins!')
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -211,7 +227,24 @@ while 1:
             screen.blit(LIFE_pic, (33, 0))
         elif LIFE_COUNTER == 1:
             screen.blit(LIFE_pic, (4, 0))
-            
+
+        if BOX == True:
+            PAUSE = True
+            action_window.fill(GRAY)
+            coin_menu.fill(BEIGE)
+            potion_menu.fill(LIGHT_BEIGE)
+            create_text(coin_menu, f'x {coin_counter}', (0, 0))
+            create_text(potion_menu, f'x {potion_counter}', (0, 0))
+            INSIDEbox_pic.blit(coin_menu,(120, 60))
+            INSIDEbox_pic.blit(potion_menu,(120, 120))
+            Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
+            INSIDEbox_pic.blit(BIG_COIN_pic, (70, 50))
+            INSIDEbox_pic.blit(BIG_POTION_pic, (70, 110))
+            action_window.blit(INSIDEbox_pic, (0, 0))
+        else :
+            create_background(coin_menu, (100, 30))
+            create_background(potion_menu, (100, 30))
+
     #draw only if U lose        
     if LOSE == True:                                
         action_window.blit(U_LOSE_pic, (0, 0))
