@@ -11,6 +11,7 @@ screen = pygame.display.set_mode(SCREEN_SIZE)  #create a new Surface object
 action_window = pygame.Surface(ACTION_SCREEN_SIZE)
 coin_menu = pygame.Surface((100, 30))
 potion_menu = pygame.Surface((100, 30))
+selled_potion_menu = pygame.Surface((210, 60))
 
 ## pygame.FULLSCREEN can add to set_mode
 (fire_start_pos, gold_start_pos) = set_random_coord()
@@ -65,6 +66,8 @@ WAITING = True
 LOSE = False
 PAUSE = False
 BOX = False
+BUY_POTION = False
+TRY_TO_BUY = False
 
 #initial variables:
 level = 1
@@ -109,14 +112,15 @@ while 1:
         if box_button.pic_isPressed(event):
             BOX = not BOX
         elif buy_button.pic_isPressed(event):
+            TRY_TO_BUY = True
             if coin_counter >= 50:
-                print('BUY!')
                 coin_counter -=50
                 potion_counter +=1
                 coin_panel.update(coin_counter)
                 potion_panel.update(potion_counter)
+                BUY_POTION = True
             else:
-                print('Need more coins!')
+                BUY_POTION = False
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -233,10 +237,19 @@ while 1:
             action_window.fill(GRAY)
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
+            selled_potion_menu.fill(LIGHT_BEIGE)
             create_text(coin_menu, f'x {coin_counter}', (0, 0))
             create_text(potion_menu, f'x {potion_counter}', (0, 0))
+            if TRY_TO_BUY == True:
+                if BUY_POTION == True:
+                    create_text(selled_potion_menu,
+                                f'+1 Water Potion\nin Box!', (0, 0))
+                else:
+                    create_text(selled_potion_menu,
+                                f'Need more coins!', (0, 0))
             INSIDEbox_pic.blit(coin_menu,(120, 60))
             INSIDEbox_pic.blit(potion_menu,(120, 120))
+            INSIDEbox_pic.blit(selled_potion_menu,(60, 220))
             Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
             INSIDEbox_pic.blit(BIG_COIN_pic, (70, 50))
             INSIDEbox_pic.blit(BIG_POTION_pic, (70, 110))
@@ -244,6 +257,7 @@ while 1:
         else :
             create_background(coin_menu, (100, 30))
             create_background(potion_menu, (100, 30))
+            create_background(selled_potion_menu, (210, 60))
 
     #draw only if U lose        
     if LOSE == True:                                
