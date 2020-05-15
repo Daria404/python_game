@@ -8,12 +8,12 @@ pygame.init()    # initialize all pygame modules
 
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode(SCREEN_SIZE)  #create a new Surface object
+## pygame.FULLSCREEN can add to set_mode
 action_window = pygame.Surface(ACTION_SCREEN_SIZE)
 coin_menu = pygame.Surface((100, 30))
 potion_menu = pygame.Surface((100, 30))
 selled_potion_menu = pygame.Surface((210, 60))
 
-## pygame.FULLSCREEN can add to set_mode
 (fire_start_pos, gold_start_pos) = set_random_coord()
 
 ##group of downloaded surfaces:
@@ -28,6 +28,7 @@ BIG_POTION_pic = add_image('water_potion_55.png')
 BOX_pic = add_image('box.png')
 INSIDEbox_pic = add_image('box_window.png')
 BUY_pic = add_image('buy_menu.png')
+WATER_pic = add_image('water.png')
 
 
 ##player's sprite initializing:
@@ -68,9 +69,11 @@ PAUSE = False
 BOX = False
 BUY_POTION = False
 TRY_TO_BUY = False
+APPLY_WATER_POTION = False
 
 #initial variables:
 level = 1
+potion_counter = 0
 
 ##main loop:
 
@@ -92,6 +95,12 @@ while 1:
                 
             if event.key == pygame.K_SPACE:
                 PAUSE = not PAUSE
+
+            if event.key == pygame.K_w and potion_counter>0:
+                print('water')
+                potion_counter -=1
+                potion_panel.update(potion_counter)
+                APPLY_WATER_POTION = True
                 
         elif start_button.isPressed(pos): #press the button for start
             gameplay = True             #game process is started
@@ -102,7 +111,7 @@ while 1:
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             score_panel.value = 0
             coin_counter = 100
-            potion_counter = 0
+            potion_counter = 10
             level_info.value = 1
             coin_panel.value = 0
             LIFE_COUNTER = 3
@@ -111,6 +120,7 @@ while 1:
         
         if box_button.pic_isPressed(event):
             BOX = not BOX
+            TRY_TO_BUY = False
         elif buy_button.pic_isPressed(event):
             TRY_TO_BUY = True
             if coin_counter >= 50:
@@ -121,6 +131,7 @@ while 1:
                 BUY_POTION = True
             else:
                 BUY_POTION = False
+
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -243,13 +254,15 @@ while 1:
             if TRY_TO_BUY == True:
                 if BUY_POTION == True:
                     create_text(selled_potion_menu,
-                                f'+1 Water Potion\nin Box!', (0, 0))
+                                f'+1 Water Potion', (10, 0))
+                    create_text(selled_potion_menu,
+                                f'in Box!', (60, 30))
                 else:
                     create_text(selled_potion_menu,
-                                f'Need more coins!', (0, 0))
+                                f'Need more coins!', (5, 0))
             INSIDEbox_pic.blit(coin_menu,(120, 60))
             INSIDEbox_pic.blit(potion_menu,(120, 120))
-            INSIDEbox_pic.blit(selled_potion_menu,(60, 220))
+            INSIDEbox_pic.blit(selled_potion_menu,(45, 230))
             Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
             INSIDEbox_pic.blit(BIG_COIN_pic, (70, 50))
             INSIDEbox_pic.blit(BIG_POTION_pic, (70, 110))
@@ -258,6 +271,9 @@ while 1:
             create_background(coin_menu, (100, 30))
             create_background(potion_menu, (100, 30))
             create_background(selled_potion_menu, (210, 60))
+
+        if APPLY_WATER_POTION == True:
+            action_window.blit(WATER_pic, (0, 20))
 
     #draw only if U lose        
     if LOSE == True:                                
