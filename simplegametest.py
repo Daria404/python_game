@@ -110,8 +110,8 @@ while 1:
             TIMER = pygame.time.get_ticks() #start a time counting
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             score_panel.value = 0
-            coin_counter = 100
-            potion_counter = 10
+            coin_counter = 0
+            potion_counter = 0
             level_info.value = 1
             coin_panel.value = 0
             LIFE_COUNTER = 3
@@ -139,6 +139,8 @@ while 1:
 
 
     if gameplay == True and not PAUSE:        #if game process started, every obj can move
+        if APPLY_WATER_POTION == True:
+            Flame.water_update(Fire)
         Enemy.update()
         sprite.update()
         
@@ -214,7 +216,7 @@ while 1:
         Button.draw(start_button, action_window, True)
         Button.draw(exit_button, action_window,  True)
         
-    if gameplay == True:
+    if gameplay == True:            
         InfoPanel.draw(coin_panel, screen)
         InfoPanel.draw(potion_panel, screen)
         InfoPanel.draw(level_info, screen,  False)
@@ -223,6 +225,11 @@ while 1:
         InfoPanel.draw(time_panel, screen,  True)
         InfoPanel.draw(score_panel, screen,  True)
 
+        if APPLY_WATER_POTION == True:
+            time = 10
+            create_text(action_window, f'0:{time}', (0, 0))
+            action_window.blit(WATER_pic, (0, 20))
+            time -=1
 
         #draw only if game is on PAUSE
         if PAUSE == True:
@@ -272,8 +279,6 @@ while 1:
             create_background(potion_menu, (100, 30))
             create_background(selled_potion_menu, (210, 60))
 
-        if APPLY_WATER_POTION == True:
-            action_window.blit(WATER_pic, (0, 20))
 
     #draw only if U lose        
     if LOSE == True:                                

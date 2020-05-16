@@ -62,3 +62,5 @@ def create_text(surf, text, location):
 def create_background(background, size):
     background = pygame.Surface(size)
     background.set_alpha(50)
+
+    

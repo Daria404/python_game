@@ -57,6 +57,13 @@ class Flame(Enemies):
     def __init__(self, filename, location, speed):
         super().__init__(filename, location, speed)
 
+    def water_update(self):
+        if self.rect.top < 100:
+            self.rect.bottom +=self.speed 
+        else:
+            self.alive = False
+            self.kill()
+
 
 class Coin(Enemies):
     def __init__(self, filename, location, speed):
