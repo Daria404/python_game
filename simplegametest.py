@@ -70,10 +70,13 @@ BOX = False
 BUY_POTION = False
 TRY_TO_BUY = False
 APPLY_WATER_POTION = False
+start_water = None
+end_water = None
 
 #initial variables:
 level = 1
 potion_counter = 0
+current_time = pygame.time.get_ticks()
 
 ##main loop:
 
@@ -101,6 +104,9 @@ while 1:
                 potion_counter -=1
                 potion_panel.update(potion_counter)
                 APPLY_WATER_POTION = True
+                start_water = pygame.time.get_ticks()//1000
+                end_water = start_water + 10
+                print(start_water, end_water)
                 
         elif start_button.isPressed(pos): #press the button for start
             gameplay = True             #game process is started
@@ -141,6 +147,8 @@ while 1:
     if gameplay == True and not PAUSE:        #if game process started, every obj can move
         if APPLY_WATER_POTION == True:
             Flame.water_update(Fire)
+            Gold.update()
+            sprite.update()
         Enemy.update()
         sprite.update()
         
@@ -226,10 +234,12 @@ while 1:
         InfoPanel.draw(score_panel, screen,  True)
 
         if APPLY_WATER_POTION == True:
-            time = 10
-            create_text(action_window, f'0:{time}', (0, 0))
-            action_window.blit(WATER_pic, (0, 20))
-            time -=1
+            if time_panel.value != end_water:
+                create_text(action_window, f'0:{end_water - time_panel.value}', (0, 0))
+                action_window.blit(WATER_pic, (0, 20))
+            else:
+                APPLY_WATER_POTION = False
+                current_time = 0
 
         #draw only if game is on PAUSE
         if PAUSE == True:
