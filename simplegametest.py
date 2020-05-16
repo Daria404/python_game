@@ -243,6 +243,7 @@ while 1:
 
         #draw only if game is on PAUSE
         if PAUSE == True:
+            create_text(action_window, 'Press "SPACE" to continue', (95, 100))
             action_window.blit(PAUSE_pic, (100, 180))
             start_button.waiting_in_new_position(30, 260)
             exit_button.waiting_in_new_position(260, 260)
