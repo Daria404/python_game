@@ -29,7 +29,7 @@ BOX_pic = add_image('box.png')
 INSIDEbox_pic = add_image('box_window.png')
 BUY_pic = add_image('buy_menu.png')
 WATER_pic = add_image('water.png')
-
+L_tower_pic = add_image('L_tower.png')
 
 ##player's sprite initializing:
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
@@ -100,13 +100,11 @@ while 1:
                 PAUSE = not PAUSE
 
             if event.key == pygame.K_w and potion_counter>0:
-                print('water')
                 potion_counter -=1
                 potion_panel.update(potion_counter)
                 APPLY_WATER_POTION = True
                 start_water = pygame.time.get_ticks()//1000
                 end_water = start_water + 10
-                print(start_water, end_water)
                 
         elif start_button.isPressed(pos): #press the button for start
             gameplay = True             #game process is started
@@ -215,6 +213,7 @@ while 1:
     #DRAW everything we have:    
     screen.fill(GRAY)
     action_window.fill(GRAY)
+    action_window.blit(L_tower_pic, (0, 0))
     Enemy.draw(action_window)
     action_window.blit(current_sprite, sprite.locate())
     screen.blit(GROUND_pic, (0, 475))
@@ -264,6 +263,7 @@ while 1:
         if BOX == True:
             PAUSE = True
             action_window.fill(GRAY)
+            action_window.blit(L_tower_pic, (0, 0))
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
             selled_potion_menu.fill(LIGHT_BEIGE)
