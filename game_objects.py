@@ -34,7 +34,7 @@ class Enemies(pg.sprite.Sprite):
         self.alive = True
 
     def update(self):
-        if self.rect.top < 500:
+        if self.rect.top < 400:
             self.rect.bottom +=self.speed 
         else:
             self.alive = False

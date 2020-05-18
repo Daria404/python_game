@@ -54,8 +54,8 @@ def add_image(filename):
     image = pygame.image.load(os.path.join(image_path, filename))
     return image
 
-def create_text(surf, text, location):
-    myfont = pygame.font.SysFont('Comic Sans MS', 25)
+def create_text(surf, text, location, font_size):
+    myfont = pygame.font.SysFont(FONT, font_size)
     textsurface = myfont.render(text, False, (0, 0, 0))
     surf.blit(textsurface, location)
 

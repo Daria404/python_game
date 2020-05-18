@@ -1,5 +1,6 @@
 import pygame as pg
 import random
+from constants import FONT
 
 class Button():
     def __init__(self, color, x, y, width, height, text=''):
@@ -10,7 +11,7 @@ class Button():
         self.height = height
         self.text = text
 
-    def draw(self,win,outline=None):
+    def draw(self,win, outline=None):
         #Call this method to draw the button on the screen
         if outline:
             pg.draw.rect(win, outline,
@@ -20,7 +21,7 @@ class Button():
                          (self.x,self.y,self.width,self.height),0)
         
         if self.text != '':
-            font = pg.font.SysFont('comicsans', 30)
+            font = pg.font.SysFont(FONT, 30)
             text = font.render(self.text, 1, (0,0,0))
             win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
                             self.y + (self.height/2 - text.get_height()/2)))
@@ -68,7 +69,7 @@ class InfoPanel():
         self.text = text
         self.value = value
         
-    def draw(self,win,outline = None):
+    def draw(self, win, font_size, outline = None):
         if outline:
             pg.draw.rect(win, outline,
                              (self.x-2,self.y-2,self.width+4,self.height+4),0)
@@ -77,7 +78,7 @@ class InfoPanel():
                          (self.x,self.y,self.width,self.height),0)
         
 ##        if self.text != '':
-        font = pg.font.SysFont('comicsans', 30)
+        font = pg.font.SysFont(FONT, font_size)
         text = font.render(f'{self.text}:{str(self.value)}', 1, (0,0,0))
         win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
                             self.y + (self.height/2 - text.get_height()/2)))        

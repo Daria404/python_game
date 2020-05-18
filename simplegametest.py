@@ -9,7 +9,6 @@ pygame.init()    # initialize all pygame modules
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode(SCREEN_SIZE)  #create a new Surface object
 ## pygame.FULLSCREEN can add to set_mode
-action_window = pygame.Surface(ACTION_SCREEN_SIZE)
 coin_menu = pygame.Surface((100, 30))
 potion_menu = pygame.Surface((100, 30))
 selled_potion_menu = pygame.Surface((210, 60))
@@ -30,6 +29,7 @@ INSIDEbox_pic = add_image('box_window.png')
 BUY_pic = add_image('buy_menu.png')
 WATER_pic = add_image('water.png')
 L_tower_pic = add_image('L_tower.png')
+BACKGROUND_pic = add_image('game_background.png')
 
 ##player's sprite initializing:
 Left  = Eye("left_eye.png", 'left', START_EYE_POS)
@@ -47,11 +47,11 @@ Enemy = pygame.sprite.Group(Fire, Gold)
 ##all buttons and info panels:
 start_button = Button(GREEN, 160, 100, 200, 50, 'START')
 exit_button  = Button(RED, 160, 180, 200, 50, 'EXIT')
-box_button = Pic_Button(BOX_pic, (240, 470))
+box_button = Pic_Button(BOX_pic, (230, 470))
 buy_button = Pic_Button(BUY_pic, (100, 180))
 
-time_panel = InfoPanel('TIME', DARK_GREY,  390, 477, 100, 20, 0, 'TIME')
-score_panel = InfoPanel('SCORE', DARK_GREY,  10, 477, 110, 20, 0, 'SCORE')
+time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
+score_panel = InfoPanel('SCORE', GRAY,  10, 475, 70, 17, 0, 'SCORE')
 total_score = InfoPanel('TOTAL_SCORE', RED, 250, 75, 200, 50, 0, 'TOTAL SCORE')
 record = InfoPanel('RECORD_SCORE', RED, 250, 150, 200, 50, 0, 'RECORD')
 new_record = InfoPanel('RECORD_SCORE', RED, 250, 100, 200, 50, 0, 'NEW RECORD')
@@ -211,43 +211,39 @@ while 1:
             Enemy.add(Heart)
                    
     #DRAW everything we have:    
-    screen.fill(GRAY)
-    action_window.fill(GRAY)
-    action_window.blit(L_tower_pic, (0, 0))
-    Enemy.draw(action_window)
-    action_window.blit(current_sprite, sprite.locate())
-    screen.blit(GROUND_pic, (0, 475))
-    Pic_Button.draw_pic_button(box_button, screen)
+    screen.blit(BACKGROUND_pic, (0, 0))
+    screen.blit(current_sprite, sprite.locate())
+    Enemy.draw(screen)
     
     if WAITING == True and LOSE == False:
-        Button.draw(start_button, action_window, True)
-        Button.draw(exit_button, action_window,  True)
+        Button.draw(start_button, screen, True)
+        Button.draw(exit_button, screen,  True)
         
     if gameplay == True:            
-        InfoPanel.draw(coin_panel, screen)
-        InfoPanel.draw(potion_panel, screen)
-        InfoPanel.draw(level_info, screen,  False)
-        screen.blit(COIN_pic, (229, 2))
+        InfoPanel.draw(coin_panel, screen, 25)
+        InfoPanel.draw(potion_panel, screen, 25)
+        InfoPanel.draw(level_info, screen, 25,  False)
+        screen.blit(COIN_pic, (225, 2))
         screen.blit(POTION_pic, (359, 0))
-        InfoPanel.draw(time_panel, screen,  True)
-        InfoPanel.draw(score_panel, screen,  True)
+        InfoPanel.draw(time_panel, screen, 15, False)
+        InfoPanel.draw(score_panel, screen, 15,  False)
 
         if APPLY_WATER_POTION == True:
             if time_panel.value != end_water:
-                create_text(action_window, f'0:{end_water - time_panel.value}', (0, 0))
-                action_window.blit(WATER_pic, (0, 20))
+                create_text(screen, f'0:{end_water - time_panel.value}', (0, 25), 20)
+                screen.blit(WATER_pic, (0, 20))
             else:
                 APPLY_WATER_POTION = False
                 current_time = 0
 
         #draw only if game is on PAUSE
         if PAUSE == True:
-            create_text(action_window, 'Press "SPACE" to continue', (95, 100))
-            action_window.blit(PAUSE_pic, (100, 180))
+            create_text(screen, 'Press "SPACE" to continue', (55, 100), 25)
+            screen.blit(PAUSE_pic, (100, 180))
             start_button.waiting_in_new_position(30, 260)
             exit_button.waiting_in_new_position(260, 260)
-            Button.draw(start_button, action_window, True)
-            Button.draw(exit_button, action_window,  True)
+            Button.draw(start_button, screen, True)
+            Button.draw(exit_button, screen,  True)
             
         #draw life hearts
         if LIFE_COUNTER == 3:
@@ -262,49 +258,44 @@ while 1:
 
         if BOX == True:
             PAUSE = True
-            action_window.fill(GRAY)
-            action_window.blit(L_tower_pic, (0, 0))
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
             selled_potion_menu.fill(LIGHT_BEIGE)
-            create_text(coin_menu, f'x {coin_counter}', (0, 0))
-            create_text(potion_menu, f'x {potion_counter}', (0, 0))
+            create_text(coin_menu, f'x {coin_counter}', (0, 0), 25)
+            create_text(potion_menu, f'x {potion_counter}', (0, 0), 25)
             if TRY_TO_BUY == True:
                 if BUY_POTION == True:
                     create_text(selled_potion_menu,
-                                f'+1 Water Potion', (10, 0))
+                                f'+1 Water Potion', (10, 0), 20)
                     create_text(selled_potion_menu,
-                                f'in Box!', (60, 30))
+                                f'in Box!', (60, 30), 20)
                 else:
                     create_text(selled_potion_menu,
-                                f'Need more coins!', (5, 0))
+                                f'Need more coins!', (2, 0), 20)
             INSIDEbox_pic.blit(coin_menu,(120, 60))
             INSIDEbox_pic.blit(potion_menu,(120, 120))
             INSIDEbox_pic.blit(selled_potion_menu,(45, 230))
             Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
             INSIDEbox_pic.blit(BIG_COIN_pic, (70, 50))
             INSIDEbox_pic.blit(BIG_POTION_pic, (70, 110))
-            action_window.blit(INSIDEbox_pic, (0, 0))
+            screen.blit(INSIDEbox_pic, (0, 0))
         else :
             create_background(coin_menu, (100, 30))
             create_background(potion_menu, (100, 30))
             create_background(selled_potion_menu, (210, 60))
 
-
     #draw only if U lose        
     if LOSE == True:                                
-        action_window.blit(U_LOSE_pic, (0, 0))
+        screen.blit(U_LOSE_pic, (0, 0))
         start_button.waiting_in_new_position(30, 260)
         exit_button.waiting_in_new_position(260, 260)
-        Button.draw(start_button, action_window, True)
-        Button.draw(exit_button, action_window,  True)
+        Button.draw(start_button, screen, True)
+        Button.draw(exit_button, screen,  True)
         if NEW_RECORD:
             new_record.update(new_record_score)
-            InfoPanel.draw(new_record, action_window,  True)
+            InfoPanel.draw(new_record, screen, 30, True)
         else:
-            InfoPanel.draw(total_score, action_window,  True)
+            InfoPanel.draw(total_score, screen, 30, True)
             record.update(prev_record)
-            InfoPanel.draw(record, action_window,  True)
-            
-    screen.blit(action_window, (0, 25))
+            InfoPanel.draw(record, screen, 30, True)
     pygame.display.update()
