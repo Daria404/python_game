@@ -44,7 +44,6 @@ def score_to_list(result):
 def clear_score_list():
     with open('score.dat', "w"):
         pass
-
     
 def record_res():
     score_list = open_score_list()

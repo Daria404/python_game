@@ -11,7 +11,7 @@ class Button():
         self.height = height
         self.text = text
 
-    def draw(self,win, outline=None):
+    def draw(self,win, font_size, outline=None):
         #Call this method to draw the button on the screen
         if outline:
             pg.draw.rect(win, outline,
@@ -21,7 +21,7 @@ class Button():
                          (self.x,self.y,self.width,self.height),0)
         
         if self.text != '':
-            font = pg.font.SysFont(FONT, 30)
+            font = pg.font.SysFont(FONT, font_size)
             text = font.render(self.text, 1, (0,0,0))
             win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
                             self.y + (self.height/2 - text.get_height()/2)))
