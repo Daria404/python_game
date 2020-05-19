@@ -7,7 +7,7 @@ from tools import *
 pygame.init()    # initialize all pygame modules
 pygame.display.set_caption("Lancelot's eye")
 
-clear_score_list()
+##clear_score_list()
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode(SCREEN_SIZE)  #create a new Surface object
 ## pygame.FULLSCREEN can add to set_mode
@@ -21,7 +21,6 @@ selled_potion_menu = pygame.Surface((210, 60))
 U_LOSE_pic = add_image('lose.png')
 PAUSE_pic = add_image('sword_pause.png')
 LIFE_pic = add_image('heart.png')
-GROUND_pic = add_image('ground.png')
 COIN_pic = add_image('coin_30.png')
 BIG_COIN_pic = add_image('coin.png')
 POTION_pic = add_image('water_potion.png')
@@ -30,7 +29,6 @@ BOX_pic = add_image('box.png')
 INSIDEbox_pic = add_image('box_window.png')
 BUY_pic = add_image('buy_menu.png')
 WATER_pic = add_image('water.png')
-L_tower_pic = add_image('L_tower.png')
 BACKGROUND_pic = add_image('game_background.png')
 SHIELD_pic = add_image('shield_with_windowsRED.png')
 START_SHIELD_pic = add_image('shield_with_windowsSTART.png')
@@ -53,7 +51,7 @@ Enemy = pygame.sprite.Group(Fire, Gold)
 start_button = Button(GREEN, 180, 132, 140, 50, 'START')
 exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470))
-buy_button = Pic_Button(BUY_pic, (100, 180))
+buy_button = Pic_Button(BUY_pic, (47, 175))
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
 score_panel = InfoPanel('SCORE', GRAY,  12, 475, 70, 17, 0, 'SCORE')
@@ -250,16 +248,12 @@ while 1:
             Button.draw(start_button, screen, 30)
             Button.draw(exit_button, screen,  30)
             screen.blit(PAUSE_pic, (45, 155))
-   #         start_button.waiting_in_new_position(30, 260)
-  #          exit_button.waiting_in_new_position(260, 260)
-  #          Button.draw(start_button, screen, 30, True)
- #           Button.draw(exit_button, screen,  30, True)
             
         #draw life hearts
         if LIFE_COUNTER == 3:
-            screen.blit(LIFE_pic, (4, 0))
-            screen.blit(LIFE_pic, (33, 0))
-            screen.blit(LIFE_pic, (62, 0))
+            screen.blit(LIFE_pic, (4, 1))
+            screen.blit(LIFE_pic, (33, 1))
+            screen.blit(LIFE_pic, (62, 1))
         elif LIFE_COUNTER == 2:
             screen.blit(LIFE_pic, (4, 0))
             screen.blit(LIFE_pic, (33, 0))

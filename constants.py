@@ -26,7 +26,7 @@ GREEN       = (63,  122,  77)
 RED         = (178,  34,  34)
 DARK_GREY   = (100, 100, 100)
 BEIGE       = (225, 199, 154)
-LIGHT_BEIGE = (225, 202, 160)
+LIGHT_BEIGE = (226, 200, 159)
 
 current_path = os.path.dirname(__file__) # Where your .py file is located
 image_path = os.path.join(current_path, 'images') # The image folder path
