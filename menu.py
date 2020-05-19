@@ -69,17 +69,21 @@ class InfoPanel():
         self.text = text
         self.value = value
         
-    def draw(self, win, font_size, outline = None):
+    def draw(self, win, font_size, outline = None, only_value = None):
         if outline:
             pg.draw.rect(win, outline,
                              (self.x-2,self.y-2,self.width+4,self.height+4),0)
             
         pg.draw.rect(win, self.color,
                          (self.x,self.y,self.width,self.height),0)
-        
-##        if self.text != '':
+
         font = pg.font.SysFont(FONT, font_size)
-        text = font.render(f'{self.text}:{str(self.value)}', 1, (0,0,0))
+        if only_value == 1:
+            text = font.render(f'{str(self.value)}', 1, (0,0,0))
+        elif only_value == 2 :
+            text = font.render(f'{self.text}:', 1, (0,0,0))
+        else:
+            text = font.render(f'{self.text}:{str(self.value)}', 1, (0,0,0))
         win.blit(text, (self.x + (self.width/2 - text.get_width()/2),
                             self.y + (self.height/2 - text.get_height()/2)))        
         
