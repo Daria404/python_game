@@ -145,7 +145,6 @@ while 1:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
         time_panel.update(result_time)  #set new value on the button text
 
-
     if gameplay == True and not PAUSE:        #if game process started, every obj can move
         if APPLY_WATER_POTION == True:
             Flame.water_update(Fire)
@@ -169,12 +168,12 @@ while 1:
             coin_panel.update(coin_counter)
             score = score_panel.value + 5
             score_panel.update(score)
-            
-            if coin_counter == level * 10 * (level + 1):
+            if score >= 30 and score % 25 == 0:
                 #every N coins level UP:
                 level +=1
                 level_info.update(level)
                 Enemies.level_up(Gold, Fire)
+            
             Gold.alive = False
         elif collide[0] == Fire:
             LIFE_COUNTER -= 1
