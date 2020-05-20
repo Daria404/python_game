@@ -36,9 +36,10 @@ class Button():
         else: flag = False
         if flag and pressed[0]: return True
 
-    def waiting_in_new_position(self, x, y):
-        self.x = x
-        self.y = y
+    def waiting_in_new_position(self, new_location):
+        self.x = new_location[0]
+        self.y = new_location[1]
+        
 
 class Pic_Button(Button):
     def __init__(self, pic, location):
@@ -56,8 +57,6 @@ class Pic_Button(Button):
                 if self.rect.collidepoint(event.pos): # is mouse over button
                     return True
         
-        
-
 class InfoPanel():
     def __init__(self, name, color, x, y, width, height, value, text=''):
         self.name = name

@@ -215,6 +215,7 @@ while 1:
         if score >= random_heart_int and score % random_heart_int == 0:
             Heart = Enemies("red_heart.png", set_random_coord()[0], Gold.speed)
             Enemy.add(Heart)
+            
         if coin_counter >= 99:
                 NEW_COIN_ICON_POS = move_icon(COIN_ICON_POS, -10, axis = 'x')
                 COIN_IS_MOVED = True
@@ -225,35 +226,41 @@ while 1:
     Enemy.draw(screen)
     
     if WAITING == True and LOSE == False:
-        screen.blit(START_SHIELD_pic, (130, 80))
-        Button.draw(start_button, screen, 30)
-        Button.draw(exit_button, screen,  30)
+        screen.blit(START_SHIELD_pic, START_SHIELD_POS)
+        Button.draw(start_button, screen, BUTTON_FONT_SIZE)
+        Button.draw(exit_button, screen,  BUTTON_FONT_SIZE)
         
     if gameplay == True:            
-        InfoPanel.draw(coin_panel, screen, 25)
-        InfoPanel.draw(potion_panel, screen, 25)
-        InfoPanel.draw(level_info, screen, 25,  outline = False)
-        if COIN_IS_MOVED: screen.blit(COIN_pic, NEW_COIN_ICON_POS)
-        else: screen.blit(COIN_pic, COIN_ICON_POS)
-        screen.blit(POTION_pic, (357, 0))
-        InfoPanel.draw(time_panel, screen, 15, outline = False)
-        InfoPanel.draw(score_panel, screen, 15,  outline = False)
+        InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
+        InfoPanel.draw(potion_panel, screen, INFO_PANEL_FONT_SIZE)
+        InfoPanel.draw(level_info, screen, INFO_PANEL_FONT_SIZE,  outline = False)
+
+        if COIN_IS_MOVED:
+            screen.blit(COIN_pic, NEW_COIN_ICON_POS)
+        else:
+            screen.blit(COIN_pic, COIN_ICON_POS)
+            
+        screen.blit(POTION_pic, POTION_ICON_POS)
+        InfoPanel.draw(time_panel, screen, BOTTOM_PANEL_FONT_SIZE, outline = False)
+        InfoPanel.draw(score_panel, screen, BOTTOM_PANEL_FONT_SIZE,  outline = False)
 
         if APPLY_WATER_POTION == True:
             if time_panel.value != end_water:
-                create_text(screen, f'0:{end_water - time_panel.value}', (0, 25), 20)
-                screen.blit(WATER_pic, (0, 20))
+                create_text(screen,
+                            f'0:{end_water - time_panel.value}', (0, 25), 20)
+                screen.blit(WATER_pic, WATER_SURF_POS)
             else:
                 APPLY_WATER_POTION = False
                 current_time = 0
 
         #draw only if game is on PAUSE
         if PAUSE == True:
-            create_text(screen, 'Press "SPACE" to continue', (60, 25), 25)
-            screen.blit(START_SHIELD_pic, (130, 80))
-            Button.draw(start_button, screen, 30)
-            Button.draw(exit_button, screen,  30)
-            screen.blit(PAUSE_pic, (45, 155))
+            create_text(screen,
+                        'Press "SPACE" to continue', (60, 25), INFO_PANEL_FONT_SIZE)
+            screen.blit(START_SHIELD_pic, START_SHIELD_POS)
+            Button.draw(start_button, screen, BUTTON_FONT_SIZE)
+            Button.draw(exit_button, screen,  BUTTON_FONT_SIZE)
+            screen.blit(PAUSE_pic, PAUSE_PIC_POS)
             
         #draw life hearts
         if LIFE_COUNTER == 3:
@@ -271,8 +278,10 @@ while 1:
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
             selled_potion_menu.fill(LIGHT_BEIGE)
-            create_text(coin_menu, f'x {coin_counter}', (0, 0), 25)
-            create_text(potion_menu, f'x {potion_counter}', (0, 0), 25)
+            create_text(coin_menu,
+                        f'x {coin_counter}', (0, 0), INFO_PANEL_FONT_SIZE)
+            create_text(potion_menu,
+                        f'x {potion_counter}', (0, 0), INFO_PANEL_FONT_SIZE)
             if TRY_TO_BUY == True:
                 if BUY_POTION == True:
                     create_text(selled_potion_menu,
@@ -282,30 +291,29 @@ while 1:
                 else:
                     create_text(selled_potion_menu,
                                 f'Need more coins!', (2, 0), 20)
-            INSIDEbox_pic.blit(coin_menu,(120, 60))
-            INSIDEbox_pic.blit(potion_menu,(120, 120))
-            INSIDEbox_pic.blit(selled_potion_menu,(45, 230))
+            INSIDEbox_pic.blit(coin_menu, COIN_MENU_PIC)
+            INSIDEbox_pic.blit(potion_menu, POTION_MENU_PIC)
+            INSIDEbox_pic.blit(selled_potion_menu, SELLED_POTION_MENU_PIC)
             Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
-            INSIDEbox_pic.blit(BIG_COIN_pic, (70, 50))
-            INSIDEbox_pic.blit(BIG_POTION_pic, (70, 110))
+            INSIDEbox_pic.blit(BIG_COIN_pic, MENU_COIN_PIC)
+            INSIDEbox_pic.blit(BIG_POTION_pic, MENU_POTION_PIC)
             screen.blit(INSIDEbox_pic, (0, 0))
-        else :
-            create_background(coin_menu, (100, 30))
-            create_background(potion_menu, (100, 30))
-            create_background(selled_potion_menu, (210, 60))
+
 
     #draw only if U lose        
     if LOSE == True:                                
-        start_button.waiting_in_new_position(30, 260)
-        exit_button.waiting_in_new_position(30, 330)
-        Button.draw(start_button, screen, 30, True)
-        Button.draw(exit_button, screen,  30, True)
-        screen.blit(U_LOSE_pic, (25, 65))
-        screen.blit(SHIELD_pic, (235, 40))
+        start_button.waiting_in_new_position(START_LOSE_POS)
+        exit_button.waiting_in_new_position(EXIT_LOSE_POS)
+        Button.draw(start_button, screen, BUTTON_FONT_SIZE, True)
+        Button.draw(exit_button, screen,  BUTTON_FONT_SIZE, True)
+        screen.blit(U_LOSE_pic, LOSE_PIC_POS)
+        screen.blit(SHIELD_pic, LOSE_SHIELD_POS)
         if NEW_RECORD:
             new_record.update(new_record_score)
-            InfoPanel.draw(new_record_text, screen, 19, outline = False, only_value = 2)
-            InfoPanel.draw(new_record, screen, 30, outline = False, only_value = 1)
+            InfoPanel.draw(new_record_text, screen,
+                           19, outline = False, only_value = 2)
+            InfoPanel.draw(new_record, screen,
+                           BUTTON_FONT_SIZE, outline = False, only_value = 1)
         else:
             InfoPanel.draw(total_score, screen, 17)
             record.update(prev_record)
