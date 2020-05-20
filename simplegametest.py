@@ -74,6 +74,7 @@ BOX = False
 BUY_POTION = False
 TRY_TO_BUY = False
 APPLY_WATER_POTION = False
+COIN_IS_MOVED = False
 start_water = None
 end_water = None
 
@@ -119,12 +120,14 @@ while 1:
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             Eye.set_start_level(sprite)
             score_panel.value = 0
+            potion_panel.value = 0
             coin_counter = 0
             potion_counter = 0
             level_info.value = 1
             coin_panel.value = 0
             LIFE_COUNTER = 3
             NEW_RECORD = False
+            COIN_IS_MOVED = False
             random_heart_int = random.choice(range(10,30))
         
         if box_button.pic_isPressed(event):
@@ -140,7 +143,6 @@ while 1:
                 BUY_POTION = True
             else:
                 BUY_POTION = False
-
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -213,6 +215,9 @@ while 1:
         if score >= random_heart_int and score % random_heart_int == 0:
             Heart = Enemies("red_heart.png", set_random_coord()[0], Gold.speed)
             Enemy.add(Heart)
+        if coin_counter >= 99:
+                NEW_COIN_ICON_POS = move_icon(COIN_ICON_POS, -10, axis = 'x')
+                COIN_IS_MOVED = True
                    
     #DRAW everything we have:    
     screen.blit(BACKGROUND_pic, (0, 0))
@@ -228,8 +233,9 @@ while 1:
         InfoPanel.draw(coin_panel, screen, 25)
         InfoPanel.draw(potion_panel, screen, 25)
         InfoPanel.draw(level_info, screen, 25,  outline = False)
-        screen.blit(COIN_pic, (225, 2))
-        screen.blit(POTION_pic, (359, 0))
+        if COIN_IS_MOVED: screen.blit(COIN_pic, NEW_COIN_ICON_POS)
+        else: screen.blit(COIN_pic, COIN_ICON_POS)
+        screen.blit(POTION_pic, (357, 0))
         InfoPanel.draw(time_panel, screen, 15, outline = False)
         InfoPanel.draw(score_panel, screen, 15,  outline = False)
 

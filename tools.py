@@ -62,4 +62,11 @@ def create_background(background, size):
     background = pygame.Surface(size)
     background.set_alpha(50)
 
-    
+
+def move_icon(old_pos, step, axis = None):
+    if axis == 'x':
+        new_pos = (old_pos[0] + step, old_pos[1])
+    elif axis == 'y':
+        new_pos = (old_pos[0], old_pos[1] + step)
+    return new_pos
+
