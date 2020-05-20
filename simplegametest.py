@@ -35,8 +35,8 @@ START_SHIELD_pic = add_image('shield_with_windowsSTART.png')
 
 
 ##player's sprite initializing:
-Left  = Eye("left_eye.png", 'left', START_EYE_POS)
-Right = Eye("right_eye.png", 'right', START_EYE_POS)
+Left  = Eye("left_eye.png", 'left', START_EYE_POS, START_EYE_SPEED)
+Right = Eye("right_eye.png", 'right', START_EYE_POS, START_EYE_SPEED)
 current_sprite  = Left.img()
 sprite = Left
 
@@ -117,6 +117,7 @@ while 1:
             WAITING = False
             TIMER = pygame.time.get_ticks() #start a time counting
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
+            Eye.set_start_level(sprite)
             score_panel.value = 0
             coin_counter = 0
             potion_counter = 0
@@ -173,7 +174,7 @@ while 1:
                 level +=1
                 level_info.update(level)
                 Enemies.level_up(Gold, Fire)
-            
+                Eye.level_up(sprite)
             Gold.alive = False
         elif collide[0] == Fire:
             LIFE_COUNTER -= 1

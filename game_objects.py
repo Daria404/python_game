@@ -4,19 +4,20 @@ from constants import *
 import os
 
 class Eye(pg.sprite.Sprite):
-    def __init__(self, filename, direction, location):
+    def __init__(self, filename, direction, location, speed):
         pg.sprite.Sprite.__init__(self)
         self.image = pg.image.load(os.path.join(image_path, filename))
         self.rect = self.image.get_rect(topleft = location)
         self.direction = direction
+        self.speed = speed
 
     def update(self):
         keys =  pg.key.get_pressed()
         if keys[pg.K_LEFT] and self.rect.left >= 0 :
-            self.rect.left -= 8
+            self.rect.left -= self.speed
             self.direction = 'left'
         elif keys[pg.K_RIGHT] and self.rect.right <= 500:
-            self.rect.right += 8
+            self.rect.right += self.speed
             self.direction = 'right'
 
     def img(self):
@@ -24,6 +25,12 @@ class Eye(pg.sprite.Sprite):
 
     def locate(self):
         return self.rect
+
+    def level_up(self):
+        self.speed +=2
+        
+    def set_start_level(self):
+        self.speed = START_EYE_SPEED
 
 class Enemies(pg.sprite.Sprite):
     def __init__(self, filename, location, speed, alive = None):
