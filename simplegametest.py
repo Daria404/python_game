@@ -103,6 +103,8 @@ while 1:
             TIMER = pygame.time.get_ticks() #start a time counting
             Enemies.set_start_level(Gold, Fire, Heart) #refresh level to 1 for new start
             Eye.set_start_level(sprite)
+            start_button.x, start_button.y = 180, 132
+            exit_button.x, exit_button.y = 180, 254
             score_panel.value = 0
             potion_panel.value = 0
             coin_counter = 0
