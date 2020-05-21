@@ -3,6 +3,7 @@ from constants import *
 from menu import *
 from game_objects import *
 from tools import *
+from pic_downloading import *
 
 pygame.init()    # initialize all pygame modules
 pygame.display.set_caption("Lancelot's eye")
@@ -16,23 +17,6 @@ potion_menu = pygame.Surface((100, 30))
 selled_potion_menu = pygame.Surface((210, 60))
 
 (fire_start_pos, gold_start_pos) = set_random_coord()
-
-##group of downloaded surfaces:
-U_LOSE_pic = add_image('lose.png')
-PAUSE_pic = add_image('sword_pause.png')
-LIFE_pic = add_image('heart.png')
-COIN_pic = add_image('coin_30.png')
-BIG_COIN_pic = add_image('coin.png')
-POTION_pic = add_image('water_potion.png')
-BIG_POTION_pic = add_image('water_potion_55.png')
-BOX_pic = add_image('box.png')
-INSIDEbox_pic = add_image('box_window.png')
-BUY_pic = add_image('buy_menu.png')
-WATER_pic = add_image('water.png')
-BACKGROUND_pic = add_image('game_background.png')
-SHIELD_pic = add_image('shield_with_windowsRED.png')
-START_SHIELD_pic = add_image('shield_with_windowsSTART.png')
-
 
 ##player's sprite initializing:
 Left  = Eye("left_eye.png", 'left', START_EYE_POS, START_EYE_SPEED)
@@ -264,14 +248,11 @@ while 1:
             
         #draw life hearts
         if LIFE_COUNTER == 3:
-            screen.blit(LIFE_pic, (4, 1))
-            screen.blit(LIFE_pic, (33, 1))
-            screen.blit(LIFE_pic, (62, 1))
+            screen.blit(FULL_LIFE_pic, HEART_PANEL_POS)
         elif LIFE_COUNTER == 2:
-            screen.blit(LIFE_pic, (4, 0))
-            screen.blit(LIFE_pic, (33, 0))
+            screen.blit(LIFEx2_pic, HEART_PANEL_POS)
         elif LIFE_COUNTER == 1:
-            screen.blit(LIFE_pic, (4, 0))
+            screen.blit(LAST_LIFE_pic, HEART_PANEL_POS)
 
         if BOX == True:
             PAUSE = True
