@@ -36,6 +36,7 @@ start_button = Button(GREEN, 180, 132, 140, 50, 'START')
 exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470))
 settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS)
+help_button = Pic_Button(HELP_BUTTON_PIC, HELP_POS)
 buy_button = Pic_Button(BUY_pic, (47, 175))
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
@@ -132,6 +133,8 @@ while 1:
                 BUY_POTION = False
         elif settings_button.pic_isPressed(event):
             print('click!')
+        elif help_button.pic_isPressed(event):
+            print('help!')
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -213,16 +216,17 @@ while 1:
     screen.blit(BACKGROUND_pic, (0, 0))
     screen.blit(current_sprite, sprite.locate())
     Enemy.draw(screen)
+    Pic_Button.draw_pic_button(settings_button, screen)
+    Pic_Button.draw_pic_button(help_button, screen)
     
     if WAITING == True and LOSE == False:
         screen.blit(START_SHIELD_pic, START_SHIELD_POS)
         Button.draw(start_button, screen, BUTTON_FONT_SIZE)
-        Button.draw(exit_button, screen,  BUTTON_FONT_SIZE)
+        Button.draw(exit_button, screen, BUTTON_FONT_SIZE)
         
     if gameplay == True:            
         InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
         InfoPanel.draw(potion_panel, screen, INFO_PANEL_FONT_SIZE)
-        Pic_Button.draw_pic_button(settings_button, screen)
         InfoPanel.draw(level_info, screen, INFO_PANEL_FONT_SIZE,  outline = False)
 
         if COIN_IS_MOVED:
