@@ -35,6 +35,7 @@ Enemy = pygame.sprite.Group(Fire, Gold)
 start_button = Button(GREEN, 180, 132, 140, 50, 'START')
 exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470))
+settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS)
 buy_button = Pic_Button(BUY_pic, (47, 175))
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
@@ -129,6 +130,8 @@ while 1:
                 BUY_POTION = True
             else:
                 BUY_POTION = False
+        elif settings_button.pic_isPressed(event):
+            print('click!')
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -219,6 +222,7 @@ while 1:
     if gameplay == True:            
         InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
         InfoPanel.draw(potion_panel, screen, INFO_PANEL_FONT_SIZE)
+        Pic_Button.draw_pic_button(settings_button, screen)
         InfoPanel.draw(level_info, screen, INFO_PANEL_FONT_SIZE,  outline = False)
 
         if COIN_IS_MOVED:
