@@ -61,6 +61,7 @@ BUY_POTION = False
 TRY_TO_BUY = False
 APPLY_WATER_POTION = False
 COIN_IS_MOVED = False
+HELP = False
 start_water = None
 end_water = None
 
@@ -134,7 +135,7 @@ while 1:
         elif settings_button.pic_isPressed(event):
             print('click!')
         elif help_button.pic_isPressed(event):
-            print('help!')
+            HELP = not HELP
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -219,12 +220,15 @@ while 1:
     Pic_Button.draw_pic_button(settings_button, screen)
     Pic_Button.draw_pic_button(help_button, screen)
     
-    if WAITING == True and LOSE == False:
+    if WAITING and LOSE == False:
         screen.blit(START_SHIELD_pic, START_SHIELD_POS)
         Button.draw(start_button, screen, BUTTON_FONT_SIZE)
         Button.draw(exit_button, screen, BUTTON_FONT_SIZE)
         
-    if gameplay == True:            
+    if HELP:
+        screen.blit(HELP_WINDOW_PIC, HELP_WINDOW_POS)
+        
+    if gameplay:            
         InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
         InfoPanel.draw(potion_panel, screen, INFO_PANEL_FONT_SIZE)
         InfoPanel.draw(level_info, screen, INFO_PANEL_FONT_SIZE,  outline = False)
@@ -238,7 +242,7 @@ while 1:
         InfoPanel.draw(time_panel, screen, BOTTOM_PANEL_FONT_SIZE, outline = False)
         InfoPanel.draw(score_panel, screen, BOTTOM_PANEL_FONT_SIZE,  outline = False)
 
-        if APPLY_WATER_POTION == True:
+        if APPLY_WATER_POTION:
             if time_panel.value != end_water:
                 create_text(screen,
                             f'0:{end_water - time_panel.value}', (0, 25), 20)
@@ -248,13 +252,15 @@ while 1:
                 current_time = 0
 
         #draw only if game is on PAUSE
-        if PAUSE == True:
+        if PAUSE:
             create_text(screen,
                         'Press "SPACE" to continue', (60, 25), INFO_PANEL_FONT_SIZE)
             screen.blit(START_SHIELD_pic, START_SHIELD_POS)
             Button.draw(start_button, screen, BUTTON_FONT_SIZE)
             Button.draw(exit_button, screen,  BUTTON_FONT_SIZE)
             screen.blit(PAUSE_pic, PAUSE_PIC_POS)
+            if HELP:
+                screen.blit(HELP_WINDOW_PIC, HELP_WINDOW_POS)
             
         #draw life hearts
         if LIFE_COUNTER == 3:
@@ -264,7 +270,7 @@ while 1:
         elif LIFE_COUNTER == 1:
             screen.blit(LAST_LIFE_pic, HEART_PANEL_POS)
 
-        if BOX == True:
+        if BOX:
             PAUSE = True
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
@@ -273,8 +279,8 @@ while 1:
                         f'x {coin_counter}', (0, 0), INFO_PANEL_FONT_SIZE)
             create_text(potion_menu,
                         f'x {potion_counter}', (0, 0), INFO_PANEL_FONT_SIZE)
-            if TRY_TO_BUY == True:
-                if BUY_POTION == True:
+            if TRY_TO_BUY:
+                if BUY_POTION:
                     create_text(selled_potion_menu,
                                 f'+1 Water Potion', (10, 0), 20)
                     create_text(selled_potion_menu,
@@ -282,17 +288,17 @@ while 1:
                 else:
                     create_text(selled_potion_menu,
                                 f'Need more coins!', (2, 0), 20)
-            INSIDEbox_pic.blit(coin_menu, COIN_MENU_PIC)
-            INSIDEbox_pic.blit(potion_menu, POTION_MENU_PIC)
-            INSIDEbox_pic.blit(selled_potion_menu, SELLED_POTION_MENU_PIC)
+            INSIDEbox_pic.blit(coin_menu, COIN_MENU_POS)
+            INSIDEbox_pic.blit(potion_menu, POTION_MENU_POS)
+            INSIDEbox_pic.blit(selled_potion_menu, SELLED_POTION_MENU_POS)
             Pic_Button.draw_pic_button(buy_button, INSIDEbox_pic)
-            INSIDEbox_pic.blit(BIG_COIN_pic, MENU_COIN_PIC)
-            INSIDEbox_pic.blit(BIG_POTION_pic, MENU_POTION_PIC)
-            screen.blit(INSIDEbox_pic, (0, 0))
+            INSIDEbox_pic.blit(BIG_COIN_pic, MENU_COIN_POS)
+            INSIDEbox_pic.blit(BIG_POTION_pic, MENU_POTION_POS)
+            screen.blit(INSIDEbox_pic, INSIDEbox_POS)
 
 
     #draw only if U lose        
-    if LOSE == True:                                
+    if LOSE:                                
         start_button.waiting_in_new_position(START_LOSE_POS)
         exit_button.waiting_in_new_position(EXIT_LOSE_POS)
         Button.draw(start_button, screen, BUTTON_FONT_SIZE, True)
