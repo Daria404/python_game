@@ -37,6 +37,8 @@ exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470))
 settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS)
 help_button = Pic_Button(HELP_BUTTON_PIC, HELP_POS)
+sound_on_button = Pic_Button(SOUND_ON_pic, (0, 0))
+sound_off_button = Pic_Button(SOUND_OFF_pic, (50, 50))
 buy_button = Pic_Button(BUY_pic, (47, 175))
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
@@ -62,6 +64,7 @@ TRY_TO_BUY = False
 APPLY_WATER_POTION = False
 COIN_IS_MOVED = False
 HELP = False
+SETTING = False
 start_water = None
 end_water = None
 
@@ -133,7 +136,7 @@ while 1:
             else:
                 BUY_POTION = False
         elif settings_button.pic_isPressed(event):
-            print('click!')
+            SETTING = not SETTING
         elif help_button.pic_isPressed(event):
             HELP = not HELP
 
