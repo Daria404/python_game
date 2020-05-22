@@ -37,8 +37,8 @@ exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470))
 settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS)
 help_button = Pic_Button(HELP_BUTTON_PIC, HELP_POS)
-sound_on_button = Pic_Button(SOUND_ON_pic, (0, 0))
-sound_off_button = Pic_Button(SOUND_OFF_pic, (50, 50))
+sound_on_button = Pic_Button(SOUND_ON_pic, (180, 90))
+sound_off_button = Pic_Button(SOUND_OFF_pic, (180, 150))
 buy_button = Pic_Button(BUY_pic, (47, 175))
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
@@ -230,6 +230,13 @@ while 1:
         
     if HELP:
         screen.blit(HELP_WINDOW_PIC, HELP_WINDOW_POS)
+    if SETTING:
+        Pic_Button.draw_pic_button(sound_on_button, INSIDEbox_pic)
+        Pic_Button.draw_pic_button(sound_off_button, INSIDEbox_pic)
+        create_text(INSIDEbox_pic, 'SETTINGS:', (60, 40), 20)
+        create_text(INSIDEbox_pic, 'MUSIC:', (60, 100), 15)
+        create_text(INSIDEbox_pic, 'SOUNDS:', (60, 160), 15)
+        screen.blit(INSIDEbox_pic, HELP_WINDOW_POS)
         
     if gameplay:            
         InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
