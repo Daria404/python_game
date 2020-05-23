@@ -42,20 +42,22 @@ class Button():
         
 
 class Pic_Button(Button):
-    def __init__(self, pic, location):
+    def __init__(self, pic, location, active):
         self.image = pic
         self.location = location
         self.rect = self.image.get_rect(topleft = location)
+        self.active = False
 
     def draw_pic_button(self, win):
         win.blit(self.image, self.location)
 
     def pic_isPressed(self, event):
-         # change selected color if rectange clicked
-        if event.type == pg.MOUSEBUTTONDOWN: # is some button clicked
-            if event.button == 1: # is left button clicked
-                if self.rect.collidepoint(event.pos): # is mouse over button
-                    return True
+        if self.active == True:
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1: 
+                    if self.rect.collidepoint(event.pos): 
+                        return True
+        elif self.active == False: return None
         
 class InfoPanel():
     def __init__(self, name, color, x, y, width, height, value, text=''):
