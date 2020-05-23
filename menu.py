@@ -3,14 +3,15 @@ import random
 from constants import FONT
 
 class Button():
-    def __init__(self, color, x, y, width, height, text=''):
+    def __init__(self, color, x, y, width, height, active, text=''):
         self.color = color
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.active = True 
         self.text = text
-
+        
     def draw(self,win, font_size, outline=None):
         #Call this method to draw the button on the screen
         if outline:
@@ -28,13 +29,15 @@ class Button():
 
     def isPressed(self, pos):
         pressed = pg.mouse.get_pressed()
-        flag = False
+        if self.active == True:
+            flag = False
         #Pos is the mouse position or a tuple of (x,y) coordinates
-        if pos[0] > self.x and pos[0] < self.x + self.width:
-            if pos[1] > self.y and pos[1] < self.y + self.height:
-                flag = True    
-        else: flag = False
-        if flag and pressed[0]: return True
+            if pos[0] > self.x and pos[0] < self.x + self.width:
+                if pos[1] > self.y and pos[1] < self.y + self.height:
+                    flag = True    
+            else: flag = False
+            if flag and pressed[0]: return True
+        elif self.active == False : return None
 
     def waiting_in_new_position(self, new_location):
         self.x = new_location[0]

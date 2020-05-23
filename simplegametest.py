@@ -32,8 +32,8 @@ Heart = Enemies("red_heart.png", gold_start_pos, START_ENEMY_SPEED)
 Enemy = pygame.sprite.Group(Fire, Gold)
 
 ##all buttons and info panels:
-start_button = Button(GREEN, 180, 132, 140, 50, 'START')
-exit_button  = Button(RED, 180, 254, 140, 50, 'EXIT')
+start_button = Button(GREEN, 180, 132, 140, 50, True, 'START')
+exit_button  = Button(RED, 180, 254, 140, 50, True, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470), active = True)
 settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS, active = True)
 help_button = Pic_Button(HELP_BUTTON_PIC, HELP_POS, active = True )
@@ -125,11 +125,13 @@ while 1:
             COIN_IS_MOVED = False
             random_heart_int = random.choice(range(10,30))
             box_button.active = True
-            print(f'box_button {box_button.active}')
         
         if box_button.pic_isPressed(event):
             BOX = not BOX
             TRY_TO_BUY = False
+            buy_button.active = not buy_button.active
+            start_button.active = not start_button.active
+            exit_button.active = not exit_button.active
         elif buy_button.pic_isPressed(event):
             TRY_TO_BUY = True
             if coin_counter >= 50:
@@ -142,9 +144,13 @@ while 1:
                 BUY_POTION = False
         elif settings_button.pic_isPressed(event):
             SETTING = not SETTING
+            start_button.active = not start_button.active
+            exit_button.active = not exit_button.active
             print('settings')
         elif help_button.pic_isPressed(event):
             HELP = not HELP
+            start_button.active = not start_button.active
+            exit_button.active = not exit_button.active
         elif sound_on_button.pic_isPressed(event):
             SOUND = not SOUND
 
@@ -194,6 +200,8 @@ while 1:
                 LOSE = True
                 gameplay = False
                 WAITING = True
+                box_button.active = False
+                help_button.active = False
                 total_res = score_panel.value
                 prev_record = record_res()
                 scores = score_to_list(score_panel.value)
@@ -230,6 +238,8 @@ while 1:
     Enemy.draw(screen)
     Pic_Button.draw_pic_button(settings_button, screen)
     Pic_Button.draw_pic_button(help_button, screen)
+    settings_button.active = True
+    help_button.active = True
     
     if WAITING and LOSE == False:
         screen.blit(START_SHIELD_pic, START_SHIELD_POS)
@@ -237,15 +247,15 @@ while 1:
         Button.draw(exit_button, screen, BUTTON_FONT_SIZE)
     if HELP:
         screen.blit(HELP_WINDOW_PIC, HELP_WINDOW_POS)
-        if SETTING:
-            if SOUND: 
-                Pic_Button.draw_pic_button(sound_on_button, INSIDEbox_pic)
-            else: 
-                Pic_Button.draw_pic_button(sound_off_button, INSIDEbox_pic)
-            create_text(INSIDEbox_pic, 'SETTINGS:', (60, 40), 20)
-            create_text(INSIDEbox_pic, 'MUSIC:', (60, 100), 15)
-            create_text(INSIDEbox_pic, 'SOUNDS:', (60, 160), 15)
-            screen.blit(INSIDEbox_pic, HELP_WINDOW_POS)
+    if SETTING:
+        if SOUND: 
+            Pic_Button.draw_pic_button(sound_on_button, INSIDEbox_pic)
+        else: 
+            Pic_Button.draw_pic_button(sound_off_button, INSIDEbox_pic)
+        create_text(INSIDEbox_pic, 'SETTINGS:', (60, 40), 20)
+        create_text(INSIDEbox_pic, 'MUSIC:', (60, 100), 15)
+        create_text(INSIDEbox_pic, 'SOUNDS:', (60, 160), 15)
+        screen.blit(INSIDEbox_pic, HELP_WINDOW_POS)
         
     if gameplay:
         InfoPanel.draw(coin_panel, screen, INFO_PANEL_FONT_SIZE)
@@ -291,6 +301,7 @@ while 1:
 
         if BOX:
             PAUSE = True
+            
             coin_menu.fill(BEIGE)
             potion_menu.fill(LIGHT_BEIGE)
             selled_potion_menu.fill(LIGHT_BEIGE)
