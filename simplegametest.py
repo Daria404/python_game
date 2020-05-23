@@ -37,8 +37,10 @@ exit_button  = Button(RED, 180, 254, 140, 50, True, 'EXIT')
 box_button = Pic_Button(BOX_pic, (230, 470), active = True)
 settings_button = Pic_Button(SETTINGS_BUTTON_PIC, SETTINGS_POS, active = True)
 help_button = Pic_Button(HELP_BUTTON_PIC, HELP_POS, active = True )
-sound_on_button = Pic_Button(SOUND_ON_pic, (180, 100), active = False)
-sound_off_button = Pic_Button(SOUND_OFF_pic, (180, 100), active = False)
+music_on_button = Pic_Button(SOUND_ON_pic, (180, 90), active = False)
+music_off_button = Pic_Button(SOUND_OFF_pic, (180, 90), active = False)
+sound_on_button = Pic_Button(SOUND_ON_pic, (180, 145), active = False)
+sound_off_button = Pic_Button(SOUND_OFF_pic, (180, 145), active = False)
 buy_button = Pic_Button(BUY_pic, (47, 175), active = False)
 
 time_panel = InfoPanel('TIME', GRAY,  390, 475, 70, 17, 0, 'TIME')
@@ -66,6 +68,7 @@ COIN_IS_MOVED = False
 HELP = False
 SETTING = False
 SOUND = True
+MUSIC = True
 start_water = None
 end_water = None
 
@@ -146,6 +149,8 @@ while 1:
             SETTING = not SETTING
             start_button.active = not start_button.active
             exit_button.active = not exit_button.active
+            sound_on_button.active = not sound_on_button.active
+            music_on_button.active = not music_on_button.active
             print('settings')
         elif help_button.pic_isPressed(event):
             HELP = not HELP
@@ -153,6 +158,8 @@ while 1:
             exit_button.active = not exit_button.active
         elif sound_on_button.pic_isPressed(event):
             SOUND = not SOUND
+        elif music_on_button.pic_isPressed(event):
+            MUSIC = not MUSIC
 
     if TIMER:
         result_time = (pygame.time.get_ticks() - TIMER)//1000
@@ -252,6 +259,10 @@ while 1:
             Pic_Button.draw_pic_button(sound_on_button, INSIDEbox_pic)
         else: 
             Pic_Button.draw_pic_button(sound_off_button, INSIDEbox_pic)
+        if MUSIC: 
+            Pic_Button.draw_pic_button(music_on_button, INSIDEbox_pic)
+        else: 
+            Pic_Button.draw_pic_button(music_off_button, INSIDEbox_pic)
         create_text(INSIDEbox_pic, 'SETTINGS:', (60, 40), 20)
         create_text(INSIDEbox_pic, 'MUSIC:', (60, 100), 15)
         create_text(INSIDEbox_pic, 'SOUNDS:', (60, 160), 15)
